@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="stylesheet" type="text/css" href="styles.css">
+</head>
+
+<body>
+
+    <header class="heading">
+        <img id="logo" src="assets/istockphoto-1130958689-612x612.jpg" alt="logo" />
+        <div id="websitename" class="content">LET's PLAY</div>
+        <div id="subtitle" class="sub header">Find Free Games Here</div>
+    </header>
+
+    <main>
+        <div id="game-list">
+            <div class="game-div">
+                <img id="showPic" src="assets/game_poster.jpg" class="smallGameLogo" alt="Game Logo" />
+                <p id="showName" class="game-name">Game Name</p>
+            </div>
+
+        </div>
+
+        <div id="game-details">
+            <div class="infoPic">
+                <div class="nextBtn" id="leftBtn"><button>
+                        < </button>
+                </div>
+
+                <img id="poster" src="assets/game_poster.jpg" class="poster" alt="Game Poster">
+
+                <div class="nextBtn" id="rightBtn"><button>
+                        > </button>
+                </div>
+            </div>
+
+            <div id="details-text">
+                <h1 id="title">Title</h1>
+                <div class="info">Short Description: <span id="description">[Short Description]</span></div>
+                <div class="info">Genre: <span id="genre">[Genre]</span></div>
+                <div class="info"> Platform: <span id="platform">[Platform]</span></div>
+                <div class="info"> Publisher: <span id="publisher">[Publisher]</span></div>
+                <div class="info"> Developer: <span id="developer">[Developer]</span></div>
+                <div class="info"> Release date: <span id="release_date">[Release date]</span></div>
+            </div>
+
+        </div>
+
+        <form id="game-form">
+            <h3>ADD NEW GAME</h3>
+            <label> Title : <input id="newName"></label>
+            <label> Description : <input id="newDesc"></label>
+            <label> Genre : <input id="newGenre"></label>
+            <label> Platform : <input id="newPlatform"></label>
+            <label> URL : <input id="newUrl"></label>
+            <label> Publisher : <input id="newPublisher"></label>
+            <label> Developer : <input id="newDeveloper"></label>
+            <label> Release Date : <input id="newReleaseDate"></label>
+
+            <button id="submitBtn" type="submit">SUBMIT</button>
+        </form>
+    </main>
+</body>
+
+</html>
