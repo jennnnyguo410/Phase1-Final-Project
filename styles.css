@@ -17,6 +17,10 @@ p {
     margin-top: 0px;
 }
 
+p {
+    font-size: small
+}
+
 /* Global styles */
 body {
     display: flex;
@@ -141,11 +145,15 @@ main {
     font-family: "Game Font"
 }
 
-.info,
 label,
 input {
     display: block;
     text-align: right;
     margin-bottom: 10px;
+    line-height: 1.5;
+}
 
+span,
+.H1title {
+    color: aqua;
 }
