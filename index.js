@@ -33,16 +33,28 @@ document.addEventListener('DOMContentLoaded', () => {
         .then(res => res.json())
         .then(games => {
             games.sort((a, b) => a.title.localeCompare(b.title));
+            let currentIndex = 0;
 
-            mainPageInfo(games[0])
-            games.forEach((game) => gameListInfo(game))
+            leftBtn.addEventListener('click', () => {
+                currentIndex = (currentIndex - 1 + games.length) % games.length;
+                mainPageInfo(games[currentIndex], currentIndex);
+            });
+            rightBtn.addEventListener('click', () => {
+                currentIndex = (currentIndex + 1) % games.length;
+                mainPageInfo(games[currentIndex], currentIndex);
+            })
+
+            gameList.innerHTML = " "
+            games.forEach((game) => gameListInfo(game, games))
+            mainPageInfo(games[currentIndex], currentIndex);
+
 
         })
         .catch(error => {
             console.error('Fetch error:', error);
         })
 
-    function mainPageInfo(game) {
+    function mainPageInfo(game, currentIndex) {
         poster.src = game.thumbnail
         title.textContent = game.title
         description.textContent = game.short_description
@@ -51,11 +63,19 @@ document.addEventListener('DOMContentLoaded', () => {
         publisher.textContent = game.publisher
         developer.textContent = game.developer
         release_date.textContent = game.release_date
+
+        document.querySelectorAll('.game-div').forEach((div, index) => {
+            if (index === currentIndex) {
+                div.classList.add('selected-game');
+            } else {
+                div.classList.remove('selected-game');
+            }
+        })
     }
 
-    // Function 2 the Game List 
+    // Function 2 the Game List & add Event Listner
 
-    function gameListInfo(game) {
+    function gameListInfo(game, games) {
         const gameDiv = document.createElement('div')
         const showPic = document.createElement('img')
         const showName = document.createElement('p')
@@ -68,7 +88,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
         gameDiv.appendChild(showPic);
         gameDiv.appendChild(showName);
+        const gameIndex = games.indexOf(game)
+        gameDiv.addEventListener("click", () => {
+            mainPageInfo(game, gameIndex)
+        })
         gameList.appendChild(gameDiv);
+
+
+
+
     }
 
 
