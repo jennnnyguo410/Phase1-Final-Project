@@ -1,9 +1,7 @@
 
 document.addEventListener('DOMContentLoaded', () => {
     console.log("DOM content loaded!");
-    const showPic = document.getElementById("showPic")
-    const showName = document.getElementById("showName")
-
+    const gameList = document.getElementById("game-list")
     const leftBtn = document.getElementById("leftBtn")
     const rightBtn = document.getElementById("rightBtn")
     const poster = document.getElementById("poster")
@@ -30,6 +28,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Function 1 Show the first game's detailed informatio when page loaded
 
+
+    fetch('http://localhost:3000/games')
+        .then(res => res.json())
+        .then(games => {
+            games.sort((a, b) => a.title.localeCompare(b.title));
+
+            mainPageInfo(games[0])
+            games.forEach((game) => gameListInfo(game))
+
+        })
+        .catch(error => {
+            console.error('Fetch error:', error);
+        })
+
     function mainPageInfo(game) {
         poster.src = game.thumbnail
         title.textContent = game.title
@@ -41,23 +53,23 @@ document.addEventListener('DOMContentLoaded', () => {
         release_date.textContent = game.release_date
     }
 
-    fetch('http://localhost:3000/games')
-        .then(res => res.json())
-        .then(games => {
-            mainPageInfo(games[0])
+    // Function 2 the Game List 
 
-            let currentIndex = 0;
-            leftBtn.addEventListener('click', () => {
-                currentIndex = (currentIndex - 1 + games.length) % games.length;
-                mainPageInfo(games[currentIndex]);
-            });
+    function gameListInfo(game) {
+        const gameDiv = document.createElement('div')
+        const showPic = document.createElement('img')
+        const showName = document.createElement('p')
+        gameDiv.classList.add("game-div");
+        showPic.src = game.thumbnail;
+        showPic.classList.add("smallGameLogo");
+        showPic.alt = "Game Logo";
+        showName.textContent = game.title;
+        showName.classList.add("game-name");
 
-            rightBtn.addEventListener('click', () => {
-                currentIndex = (currentIndex + 1) % games.length;
-                mainPageInfo(games[currentIndex]);
-            });
-        })
-
+        gameDiv.appendChild(showPic);
+        gameDiv.appendChild(showName);
+        gameList.appendChild(gameDiv);
+    }
 
 
 })
