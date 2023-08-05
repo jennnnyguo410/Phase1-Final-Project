@@ -33,7 +33,3 @@ Users can add new games to the website.
 A form is provided at the bottom of the page to input the game's information.
 After submitting the form, a POST request is made to add the game to the database.
 
-5. Filtering Feature: 
-Users can set filters to select games to be displayed based on the game platform, 
-genre, and release date. Once a filter is set, only games that meet the filter criteria are displayed.
-> POST

@@ -64,6 +64,15 @@ document.addEventListener('DOMContentLoaded', () => {
         developer.textContent = game.developer
         release_date.textContent = game.release_date
 
+        const newClickHandler = () => {
+            window.open(`${game.game_url}`, "_blank");
+        }
+        if (poster.clickHandker) {
+            poster.removeEventListener("click", poster.clickHandker)
+        }
+        poster.clickHandker = newClickHandler
+        poster.addEventListener("click", poster.clickHandker)
+
         document.querySelectorAll('.game-div').forEach((div, index) => {
             if (index === currentIndex) {
                 div.classList.add('selected-game');
@@ -93,10 +102,6 @@ document.addEventListener('DOMContentLoaded', () => {
             mainPageInfo(game, gameIndex)
         })
         gameList.appendChild(gameDiv);
-
-
-
-
     }
 
 
