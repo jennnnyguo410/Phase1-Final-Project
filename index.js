@@ -143,15 +143,16 @@ document.addEventListener('DOMContentLoaded', () => {
             body: JSON.stringify(newGame)
         })
             .then(res => res.json())
-            .then(newgame => {
-                games.push(newgame)
-                currentIndex = games.indexOf(newgame)
-                mainPageInfo(newgame, currentIndex)
+            .then(newGame => {
+                games.push(newGame)
+                games.sort((a, b) => a.title.localeCompare(b.title))
+                currentIndex = games.indexOf(newGame)
+                mainPageInfo(newGame, currentIndex)
 
-                const newGameDiv = gameListInfo(newgame, games)
+                const newGameDiv = gameListInfo(newGame, games)
                 // Add event listener for the new game
                 newGameDiv.addEventListener("click", () => {
-                    mainPageInfo(newgame, games.indexOf(newgame))
+                    mainPageInfo(newGame, games.indexOf(newGame))
                     newGameDiv.scrollIntoView({ block: 'nearest' })
                 })
                 gameList.appendChild(newGameDiv)
