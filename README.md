@@ -12,13 +12,15 @@ As a user, I can:
 Upon loading the page, I can see detailed information about the first game, 
 including the game's poster, title, developer, publisher, release platform, release date.
 
+When I click the poster, I can go into the actual website of this game.
+
 >fetch('https://www.freetogame.com/api/game?id=1')
 >   .then(response => response.json())
 >   .then(data => console.log(data));
 
 2. Game List: 
 There is a scrollable menu containing all games on the left side of the website. 
-The games in the menu are sorted alphabetically. Clicking a game in the menu will update the Game Detail Page to show that game's information.
+The games in the menu are sorted alphabetically. Clicking a game in the menu will update the Game Detail Page to show that game's information, and the clicked game's titel will change color.
 
 >fetch('https://www.freetogame.com/api/games')
 >    .then(response => response.json())
@@ -32,4 +34,5 @@ The switching logic is based on the game's id.
 Users can add new games to the website. 
 A form is provided at the bottom of the page to input the game's information.
 After submitting the form, a POST request is made to add the game to the database.
+The added game will join into the game list and the main page will show the details of the new game.
 

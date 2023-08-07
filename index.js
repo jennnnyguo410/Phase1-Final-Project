@@ -1,5 +1,6 @@
 
 document.addEventListener('DOMContentLoaded', () => {
+
     console.log("DOM content loaded!");
     const gameList = document.getElementById("game-list")
     const leftBtn = document.getElementById("leftBtn")
@@ -20,6 +21,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const newGenre = document.getElementById("newGenre")
     const newPlatform = document.getElementById("newPlatform")
     const newUrl = document.getElementById("newUrl")
+    const newThumbnail = document.getElementById("newThumbnail")
     const newPublisher = document.getElementById("newPublisher")
     const newDeveloper = document.getElementById("newDeveloper")
     const newReleaseDate = document.getElementById("newReleaseDate")
@@ -27,34 +29,41 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
     // Function 1 Show the first game's detailed informatio when page loaded
+    let games = []
+    let currentIndex = 0
 
+    leftBtn.addEventListener('click', () => {
+        currentIndex = (currentIndex - 1 + games.length) % games.length
+        mainPageInfo(games[currentIndex], currentIndex)
+    })
+    rightBtn.addEventListener('click', () => {
+        currentIndex = (currentIndex + 1) % games.length
+        mainPageInfo(games[currentIndex], currentIndex)
+    })
 
     fetch('http://localhost:3000/games')
         .then(res => res.json())
-        .then(games => {
-            games.sort((a, b) => a.title.localeCompare(b.title));
-            let currentIndex = 0;
-
-            leftBtn.addEventListener('click', () => {
-                currentIndex = (currentIndex - 1 + games.length) % games.length;
-                mainPageInfo(games[currentIndex], currentIndex);
-            });
-            rightBtn.addEventListener('click', () => {
-                currentIndex = (currentIndex + 1) % games.length;
-                mainPageInfo(games[currentIndex], currentIndex);
+        .then(data => {
+            data.sort((a, b) => {
+                if (a.title && b.title) {
+                    return a.title.localeCompare(b.title);
+                } else {
+                    return 0;
+                }
             })
-
+            games = data
+            currentIndex = 0
             gameList.innerHTML = " "
             games.forEach((game) => gameListInfo(game, games))
             mainPageInfo(games[currentIndex], currentIndex);
-
-
         })
         .catch(error => {
             console.error('Fetch error:', error);
         })
 
     function mainPageInfo(game, currentIndex) {
+        console.log('Updating main page with game:', game);
+
         poster.src = game.thumbnail
         title.textContent = game.title
         description.textContent = game.short_description
@@ -64,15 +73,18 @@ document.addEventListener('DOMContentLoaded', () => {
         developer.textContent = game.developer
         release_date.textContent = game.release_date
 
+        //clickable poster 
         const newClickHandler = () => {
             window.open(`${game.game_url}`, "_blank");
         }
+        //remover old eventlistener
         if (poster.clickHandker) {
             poster.removeEventListener("click", poster.clickHandker)
         }
         poster.clickHandker = newClickHandler
         poster.addEventListener("click", poster.clickHandker)
 
+        //when selected, change the title color
         document.querySelectorAll('.game-div').forEach((div, index) => {
             if (index === currentIndex) {
                 div.classList.add('selected-game');
@@ -100,9 +112,54 @@ document.addEventListener('DOMContentLoaded', () => {
         const gameIndex = games.indexOf(game)
         gameDiv.addEventListener("click", () => {
             mainPageInfo(game, gameIndex)
+            gameDiv.scrollIntoView({ block: 'nearest' })
         })
-        gameList.appendChild(gameDiv);
+        gameList.appendChild(gameDiv)
+
+        return gameDiv
     }
 
+    //Function 3 Add new Game into list 
+    newGameForm.addEventListener("submit", (e) => {
+        e.preventDefault()
 
+        const newGame = {
+            title: newName.value,
+            short_description: newDesc.value,
+            genre: newGenre.value,
+            platform: newPlatform.value,
+            game_url: newUrl.value,
+            thumbnail: newThumbnail.value,
+            publisher: newPublisher.value,
+            developer: newDeveloper.value,
+            release_date: newReleaseDate.value
+        }
+
+        fetch('http://localhost:3000/games', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(newGame)
+        })
+            .then(res => res.json())
+            .then(newgame => {
+                games.push(newgame)
+                currentIndex = games.indexOf(newgame)
+                mainPageInfo(newgame, currentIndex)
+
+                const newGameDiv = gameListInfo(newgame, games)
+                // Add event listener for the new game
+                newGameDiv.addEventListener("click", () => {
+                    mainPageInfo(newgame, games.indexOf(newgame))
+                    newGameDiv.scrollIntoView({ block: 'nearest' })
+                })
+                gameList.appendChild(newGameDiv)
+            })
+
+            .catch(error => {
+                console.log("Error", error)
+            })
+
+    })
 })
