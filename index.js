@@ -32,14 +32,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let games = []
     let currentIndex = 0
 
-    leftBtn.addEventListener('click', () => {
-        currentIndex = (currentIndex - 1 + games.length) % games.length
-        mainPageInfo(games[currentIndex], currentIndex)
-    })
-    rightBtn.addEventListener('click', () => {
-        currentIndex = (currentIndex + 1) % games.length
-        mainPageInfo(games[currentIndex], currentIndex)
-    })
+
 
     fetch('http://localhost:3000/games')
         .then(res => res.json())
@@ -56,13 +49,13 @@ document.addEventListener('DOMContentLoaded', () => {
             gameList.innerHTML = " "
             games.forEach((game) => gameListInfo(game, games))
             mainPageInfo(games[currentIndex], currentIndex);
+
         })
         .catch(error => {
             console.error('Fetch error:', error);
         })
 
     function mainPageInfo(game, currentIndex) {
-        console.log('Updating main page with game:', game);
 
         poster.src = game.thumbnail
         title.textContent = game.title
@@ -92,6 +85,15 @@ document.addEventListener('DOMContentLoaded', () => {
                 div.classList.remove('selected-game');
             }
         })
+
+        leftBtn.addEventListener('click', () => {
+            currentIndex = (currentIndex - 1 + games.length) % games.length
+            mainPageInfo(games[currentIndex], currentIndex)
+        })
+        rightBtn.addEventListener('click', () => {
+            currentIndex = (currentIndex + 1) % games.length
+            mainPageInfo(games[currentIndex], currentIndex)
+        })
     }
 
     // Function 2 the Game List & add Event Listner
@@ -115,6 +117,7 @@ document.addEventListener('DOMContentLoaded', () => {
             gameDiv.scrollIntoView({ block: 'nearest' })
         })
         gameList.appendChild(gameDiv)
+
 
         return gameDiv
     }
@@ -145,17 +148,14 @@ document.addEventListener('DOMContentLoaded', () => {
             .then(res => res.json())
             .then(newGame => {
                 games.push(newGame)
-                games.sort((a, b) => a.title.localeCompare(b.title))
-                currentIndex = games.indexOf(newGame)
-                mainPageInfo(newGame, currentIndex)
-
+                currentIndex = games.length - 1
+                mainPageInfo(games[currentIndex], currentIndex)
                 const newGameDiv = gameListInfo(newGame, games)
-                // Add event listener for the new game
-                newGameDiv.addEventListener("click", () => {
-                    mainPageInfo(newGame, games.indexOf(newGame))
-                    newGameDiv.scrollIntoView({ block: 'nearest' })
-                })
+                newGameDiv.classList.add('selected-game')
                 gameList.appendChild(newGameDiv)
+
+                const scrollBar = document.getElementById('game-list')
+                scrollBar.scrollTop = scrollBar.scrollHeight;
             })
 
             .catch(error => {
