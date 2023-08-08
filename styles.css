@@ -36,7 +36,7 @@ body {
     background-color: black;
     color: white;
     margin: 0;
-    cursor: url('cursor/Fluoro\ blue\ cursor\ .cur'), auto
+    cursor: url('cursor/Normal.cur'), auto
 }
 
 /* Header styles */
@@ -135,7 +135,7 @@ main {
 }
 
 .nextBtn :hover {
-    cursor: url('cursor/Horizontal\ resize.cur');
+    cursor: url('cursor/Horizontal\ resize.cur'), auto;
     background-color: rgb(0, 130, 252)
 }
 
@@ -146,6 +146,14 @@ main {
     transform: scale(0.7)
 }
 
+#poster {
+    transition: transform 0.3s, opacity 0.3s;
+}
+
+.infoPic:hover #poster {
+    transform: scale(0.75);
+    opacity: 0.8;
+}
 
 #details-text {
     margin: 0px 0px 20px 0px;
