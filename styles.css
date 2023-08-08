@@ -1,10 +1,7 @@
-/* Cursor */
-
-
 /* Define custom fonts */
 
 @font-face {
-    font-family: "H1";
+    font-family: "navFont";
     src: url('font/NeonSans-GOgRg.ttf');
 }
 
@@ -13,14 +10,21 @@
     src: url('font/NeusharpBold-7B8RV.otf');
 }
 
-h1,
-h3,
-p {
+.H1title,
+h3 {
     font-family: "Game Font";
     margin-top: 0px;
+    background: linear-gradient(45deg, #5a33f7, rgb(0, 251, 255), rgb(247, 79, 245));
+    /* text is used as the background crop object */
+    -webkit-background-clip: text;
+    background-clip: text;
+    /* Make the text color transparent so that the background gradient can be seen */
+    color: transparent;
 }
 
 p {
+    font-family: "Game Font";
+    margin-top: 0px;
     font-size: small
 }
 
@@ -29,9 +33,10 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    background-color: rgba(0, 0, 0, 0.991);
+    background-color: black;
     color: white;
     margin: 0;
+    cursor: url('cursor/Fluoro\ blue\ cursor\ .cur'), auto
 }
 
 /* Header styles */
@@ -56,18 +61,26 @@ header {
 
 #websitename,
 #subtitle {
-    font-family: "H1";
-    color: #8d70ff;
+    font-family: "navFont";
+    font-size: xx-large;
+    background: linear-gradient(45deg, #8d70ff, rgb(0, 251, 255), rgb(247, 79, 245));
+    /* text is used as the background crop object */
+    -webkit-background-clip: text;
+    background-clip: text;
+    /* Make the text color transparent so that the background gradient can be seen */
+    color: transparent;
 }
 
 #subtitle {
-    font-size: medium;
+    font-size: large;
     margin-left: 55px;
 }
 
 /* Main content styles */
 main {
     display: flex;
+    flex-direction: row;
+    justify-content: space-between;
     width: 100%;
     margin: 0 20px 0 20px
 }
@@ -78,6 +91,10 @@ main {
     overflow-y: auto;
     border: solid 1px #333333;
     border-radius: 10px;
+}
+
+#game-list :hover {
+    cursor: url("cursor/Vertical\ resize.cur"), auto;
 }
 
 .game-div {
@@ -105,19 +122,23 @@ main {
     width: 100%;
     display: flex;
     flex-direction: row;
+    justify-content: center;
     align-items: center;
 }
 
 .nextBtn {
     color: #8d70ff;
-    width: 60px;
-    padding-left: 50px;
-    height: 100px;
+
     display: flex;
     align-items: center;
     justify-content: space-between;
-    cursor: pointer;
 }
+
+.nextBtn :hover {
+    cursor: url('cursor/Horizontal\ resize.cur');
+    background-color: rgb(0, 130, 252)
+}
+
 
 .poster {
     width: 80%;
@@ -142,8 +163,15 @@ main {
     width: 10%;
     display: flex;
     flex-direction: column;
-    align-items: first baseline;
+    align-items: self-end;
     font-family: "Game Font"
+}
+
+.subBtn,
+span,
+.selected-game {
+    font-family: "Game Font";
+    color: rgb(0, 130, 252);
 }
 
 label,
@@ -152,10 +180,5 @@ input {
     text-align: right;
     margin-bottom: 10px;
     line-height: 1.5;
-}
-
-span,
-.H1title,
-.selected-game {
-    color: #8d70ff;
+    color: rgb(0, 130, 252);
 }
