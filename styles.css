@@ -1,3 +1,6 @@
+/* Cursor */
+
+
 /* Define custom fonts */
 
 @font-face {
@@ -107,16 +110,13 @@ main {
 
 .nextBtn {
     color: #8d70ff;
+    width: 60px;
+    padding-left: 50px;
+    height: 100px;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin: 50px;
-}
-
-.nextBtn button {
-    color: #8d70ff;
-    width: 30px;
-    /* Set the width of both buttons to 100% */
+    cursor: pointer;
 }
 
 .poster {
